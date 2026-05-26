@@ -6,7 +6,6 @@
 
           <form #signUp="ngForm" (ngSubmit)="onSubmit(signUp)">
 
-            <!-- UserName -->
             <div class="form-group">
               <label for="UserName"><b>UserName*</b></label>
 
@@ -26,7 +25,6 @@
               </strong>
             </div>
 
-            <!-- Email -->
             <div class="form-group">
               <label for="email"><b>Email*</b></label>
               <input
@@ -45,7 +43,6 @@
               </strong>
             </div>
 
-            <!-- Password -->
             <div class="form-group">
               <label for="password"><b>Password*</b></label>
 
@@ -65,7 +62,6 @@
               </strong>
             </div>
 
-            <!-- Button -->
             <button
               mat-raised-button
               color="primary"
@@ -82,7 +78,6 @@
     </div>
   </div>
 
-  <!-- Show Data -->
   <div class="row mt-4" *ngIf="formData">
     <div class="col-md-12">
       <div class="card p-3">
