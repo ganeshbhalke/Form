@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { IData } from './shared/modules/for';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Form';
+
+  formData!: IData;
+
+  onSubmit(form: NgForm) {
+    this.formData = form.value;
+
+    console.log(this.formData);
+  }
 }
