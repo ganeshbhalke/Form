@@ -1,28 +1,45 @@
-<div class="container">
+<div class="container mt-3">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6 offset-md-3">
       <div class="card">
         <div class="card-body">
 
-          <form #signUp="ngForm" (ngSubmit)="onSubmit(signUp)">
+          <form #signUp="ngForm" (ngSubmit)="onSubmit()">   
 
             <div class="form-group">
               <label for="UserName"><b>UserName*</b></label>
 
               <input
                 required
+                minlength="6"
                 name="UserName"
                 ngModel
                 type="text"
                 #UserName="ngModel"
-                class="form-control">
+                class="form-control"
+                pattern="[A-Za-z]+"
+                />
 
               <strong
                 class="text-danger"
-                *ngIf="UserName.touched && UserName.invalid">
+                *ngIf="UserName.touched && UserName.hasError('required')">
 
                 UserName is required field
               </strong>
+              <ng-container *ngIf="UserName.dirty">
+                <strong
+              class="text-danger"
+              *ngIf=" UserName.hasError('minlength')"
+              > minlength of username should be 
+              {{UserName.errors?.['minlength'].requiredLength}} and  actual length is 
+              {{UserName.errors?.['minlength'].actualLength}}
+            </strong>
+            <strong class="text-danger"
+            *ngIf=" UserName.hasError('pattern')"
+            >Plz Enter valid UserName
+
+            </strong>
+              </ng-container>
             </div>
 
             <div class="form-group">
@@ -31,75 +48,125 @@
                 required
                 name="email"
                 ngModel
-                type="text"
+                type="email"
                 #email="ngModel"
-                class="form-control">
+                class="form-control"
+                pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}">
 
               <strong
                 class="text-danger"
-                *ngIf="email.touched && email.invalid">
+                *ngIf="email.touched && email.hasError('required')">
 
                 Email is required field
+              </strong>
+              <strong
+              class="text-danger"
+              *ngIf="email.dirty && email.hasError('pattern')"
+              >Invalid Email Id</strong>
+            </div>
+            <div class="form-group">
+              <label for="Developer"><b>Select Role*</b></label>
+              <select
+              required
+               name="Developer" 
+                ngModel
+                 #Developer="ngModel" 
+                 class="form-control"
+                 
+                 >
+                <option value="role">Angular Developer</option>
+                <option value="role">JavaScript Developer</option>
+              </select>
+
+              <strong class="text-danger"
+              *ngIf="Developer.touched && Developer.hasError('required')"
+              > 
+                FevRole is a required field
               </strong>
             </div>
 
             <div class="form-group">
-              <label for="password"><b>Password*</b></label>
+              <label for="description"><b>Description*</b></label>
+              <textarea 
+              required
+              rows="5"
+              name="description"
+               id="description"
+               ngModel 
+               #description="ngModel"
+               class="form-control"
+               ></textarea>
 
-              <input
-                required
-                name="password"
-                ngModel
-                type="password"
-                #password="ngModel"
-                class="form-control">
-
-              <strong
-                class="text-danger"
-                *ngIf="password.touched && password.invalid">
-
-                Password is required field
-              </strong>
+               <strong class="text-danger"
+               *ngIf="description.touched && description.hasError('required')"
+               >
+                description is a required field
+               </strong>
             </div>
 
-            <button
-              mat-raised-button
-              color="primary"
-              class="w-100"
-              [disabled]="signUp.invalid">
+            <div class="form-group">
+              <label for="isSubscribed">
+                <input 
+              type="checkbox"
+               name="isSubscribed"
+                id="isSubscribed"
+                ngModel
+              > 
+                isSubscribed for a diely E-mail
+                 
+              </label>
+             
+            </div>
 
-              SignUp
-            </button>
+            <!-- <div class="form-group">
+              <label for="mocPhone" class="mr-3">
+                <input
+                value="phone"
+                 type="radio"
+                 ngModel
+                 name="modeofcontect"
+              >
+              mocPhone</label>
+            
+              <label for="mocEmail">
+                <input
+                value="email"
+                 type="radio"
+                 ngModel
+              name="modeofcontect"
+              >
+              Email</label> -->
+              
+              <div class="form-group">
+              <label 
+              *ngFor="let moc of mocArr"
+              [for]="moc.contactMode"
+               class="mr-3">
+                <input
+                [value]="moc.contactMode"
+                 type="radio"
+                 ngModel
+                 name="modeofcontect"
+                 [id]="moc.contactMode">
+                 {{moc.contactMode}}
+              
+              </label>
+            </div>
+
+
+            <button
+            type="submit" 
+            class="btn btn-sm btn-block btn-primary">SignUp</button>
 
           </form>
+          
+          <button
+          (click)="onEdit()"
+           class="btn btn-sm btn-block btn-warning mt-2">Edit</button>
 
         </div>
       </div>
     </div>
   </div>
 
-  <div class="row mt-4" *ngIf="formData">
-    <div class="col-md-12">
-      <div class="card p-3">
-
-        <h3>User Data</h3>
-
-        <p>
-          <strong>UserName :</strong>
-          {{formData.UserName}}
-        </p>
-
-        <p>
-          <strong>Email :</strong>
-          {{formData.email}}
-        </p>
-
-        <p>
-          <strong>Password :</strong>
-          {{formData.password}}
-        </p>
-
-      </div>
-    </div>
-  </div>
 </div>

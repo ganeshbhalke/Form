@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { IData } from './shared/modules/for';
 
 @Component({
   selector: 'app-root',
@@ -8,12 +7,40 @@ import { IData } from './shared/modules/for';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  title='td-form';
 
-  formData!: IData;
 
-  onSubmit(form: NgForm) {
-    this.formData = form.value;
+  @ViewChild('signUp')signUp!:NgForm;
 
-    console.log(this.formData);
+  mocArr=[
+    {contactMode:"phone"},
+    {contactMode:"email"},
+    {contactMode:"fax"}
+  ]
+
+  userDetails = {
+  UserName: 'ganesh Bhalke',
+  email: 'ganesh@gmail.com',
+  role : 'Angular',
+  description: 'The Developer',
+  isSubscribed: true,
+  modeofcontect: 'phone'
+}
+
+
+  onSubmit(){
+   if(this.signUp.invalid){
+    this.signUp.form.markAllAsTouched()
+    return
+   }
+    console.log(this.signUp);
+    console.log(this.signUp.value);
+
+    this.signUp.reset()
+    
+  }
+
+  onEdit(){
+    this.signUp.form.patchValue(this.userDetails)
   }
 }
